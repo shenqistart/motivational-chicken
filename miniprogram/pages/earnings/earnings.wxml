@@ -1,0 +1,92 @@
+<navigation-bar title="实时收益" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<view class="container">
+  <!-- 设置按钮 -->
+  <view class="settings-btn" bindtap="showInputModal">
+    <text class="iconfont icon-settings">修改</text>
+  </view>
+
+  <!-- 实时展示区域 -->
+  <view class="display-section">
+    <view class="earnings-display">
+      <text class="earnings-label">当前收益</text>
+      <text class="earnings-value">¥{{currentEarnings}}</text>
+      <text class="earnings-unit">/ {{scaleUnit}}</text>
+    </view>
+    <view class="accumulated-display">
+      <text class="accumulated-label">累计收益</text>
+      <text class="accumulated-value">¥{{accumulatedEarnings}}</text>
+    </view>
+    <view class="motivation-text">{{motivationText}}</view>
+  </view>
+
+  <!-- 金币动画 -->
+  <view class="coins-container">
+    <view wx:for="{{coins}}" wx:key="id" class="coin" style="left: {{item.left}}%; animation-delay: {{item.delay}}s">
+      ¥
+    </view>
+  </view>
+
+  <!-- 输入弹窗 -->
+  <van-popup
+    show="{{ showModal }}"
+    position="bottom"
+    custom-style="height: 80%"
+    bind:close="hideInputModal"
+  >
+    <view class="popup-content">
+      <view class="popup-header">
+        <text class="popup-title">收入设置</text>
+        <van-button icon="cross" type="text" bind:tap="hideInputModal" />
+      </view>
+      
+      <view class="popup-body">
+        <van-field
+          value="{{ monthlyIncome }}"
+          label="月收入"
+          type="digit"
+          placeholder="请输入月收入"
+          border="{{ false }}"
+          bind:change="onIncomeInput"
+        >
+          <text slot="right-icon">元</text>
+        </van-field>
+
+        <van-field
+          value="{{ workHoursPerDay }}"
+          label="工作时间"
+          type="digit"
+          placeholder="请输入工作时间"
+          border="{{ false }}"
+          bind:change="onWorkHoursInput"
+        >
+          <text slot="right-icon">小时/天</text>
+        </van-field>
+
+        <van-field
+          value="{{ workDaysPerMonth }}"
+          label="工作天数"
+          type="digit"
+          placeholder="请输入工作天数"
+          border="{{ false }}"
+          bind:change="onWorkDaysInput"
+        >
+          <text slot="right-icon">天/月</text>
+        </van-field>
+
+        <view class="scale-section">
+          <text class="scale-label">展示尺度</text>
+          <van-radio-group value="{{ selectedScale }}" bind:change="onScaleChange">
+            <van-radio name="second">每秒</van-radio>
+            <van-radio name="10second">每10秒</van-radio>
+            <van-radio name="minute">每分钟</van-radio>
+            <van-radio name="hour">每小时</van-radio>
+          </van-radio-group>
+        </view>
+
+        <view class="popup-footer">
+          <van-button type="primary" block bind:tap="hideInputModal">确定</van-button>
+        </view>
+      </view>
+    </view>
+  </van-popup>
+</view> 
